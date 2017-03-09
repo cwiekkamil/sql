@@ -1,0 +1,58 @@
+CREATE TABLE Klienci(
+id_klienta number(4) PRIMARY KEY,
+Imiê varchar2(24) NOT NULL,
+Nazwisko varchar2(24) Not null,
+kod number(5) NOT NULL,
+miejscowosc varchar2(24) NOT NULL,
+ulica varchar2(24),
+nr_domu varchar2(6),
+nr_lokalu varchar2(6) );
+
+CREATE TABLE Status_zamowienia(
+id_statusu number(4) PRIMARY KEY,
+nazwa varchar2(24));
+
+CREATE TABLE Zamowienia(
+id_zamowienia number(4) PRIMARY KEY,
+numer varchar2(6) UNIQUE NOT NULL,
+data_zamowienia date,
+id_klienta number(4) REFERENCES Klienci(id_klienta),
+status number(4) REFERENCES Status_zamowienia(id_statusu),
+rabat number (3),
+wysy³ka varchar2(6) CHECK(wysy³ka IN('poczta','kurier')));
+
+CREATE TABLE Modele_typy(
+id_typu number(4) PRIMARY KEY,
+nazwa varchar2(24) UNIQUE NOT NULL);
+
+CREATE TABLE producenci(
+id_producenta number(4) PRIMARY KEY,
+nazwa varchar2(24) NOT NULL,
+kraj varchar2(24) NOT NULL);
+
+CREATE TABLE modele(
+id_modelu number(4) PRIMARY KEY,
+typ_modelu number(4) REFERENCES Modele_typy(id_typu),
+producent number(4) REFERENCES Producenci(id_producenta),
+nazwa varchar2(24) NOT NULL,
+cena number(8,2),
+opis varchar2(200));
+
+CREATE TABLE Pozycje_zamowien(
+id_pozycji number(4) PRIMARY KEY,
+id_zamowienia number(4) REFERENCES Zamowienia(id_zamowienia),
+id_modelu number(4) REFERENCES Modele(id_modelu),
+ilosc number(4) DEFAULT 1);
+
+
+
+
+drop table pozycje_zamowien;
+drop table modele;
+drop table producenci;
+drop table modele_typy;
+drop table zamowienia;
+drop table status_zamowienia;
+drop table klienci;
+
+

@@ -1,0 +1,105 @@
+create table samochody(id number(2), marka number(2), model varchar2(40),
+cena number(10), data_produkcji date);
+
+select table_name from tabs;
+
+drop table samochody;
+
+
+create table samochody(id number(2), marka number(2), model varchar2(40),cena number(10),
+data_produkcji date, kraj_produkcji varchar2(20) default 'Polska');
+
+create table samochody(id number(2) constraint nn NOT NULL, marka number(2), model varchar2(40),cena number(10),
+data_produkcji date);
+
+create table samochody(id number(2) constraint nn Unique, marka number(2), model varchar2(40),
+cena number(10),data_produkcji date);
+
+create table samochody(id number(2) constraint pr_key Primary Key, marka number(2), model varchar2(40),
+cena number(10),data_produkcji date);
+
+create table samochody(id number(2) constraint pr_key Primary Key, marka number(2), model varchar2(40),
+cena number(10),data_produkcji date constraint ck_date Check(to_number(round(data_produkcji,'year'))>1900)
+);
+
+
+create table samochody(id number(2) constraint pr_key Primary Key,
+ marka number(2), model varchar2(40),
+cena number(10),data_produkcji date, silnik varchar2 
+(10) check(silnik in('benzyna','disel','LPG')));
+
+create table samochody
+(
+id number(2),
+ marka number(2),
+ model varchar2(40),
+cena number(10),
+data_produkcji date,
+Constraint ta_pr_ky Primary Key (id)
+);
+
+
+create table samochody1
+(
+id number(2),
+ marka number(2),
+ model varchar2(40),
+cena number(10),
+data_produkcji date,
+Constraint ta_ck_mo check(model=upper(model))
+);
+
+create table marka
+(
+id number (2) primary key,
+marka varchar2(40)
+);
+
+create table samochody3
+(
+id number (2) primary key,
+marka number(2) constraint fk_marka references marka (id),
+model varchar2 (40),
+cena number (10),
+data_produkcji date
+);
+
+
+alter table samochody3 add
+(
+przebieg number (20)
+);
+
+alter table samochody3 add
+(
+rok_produkcji number(4)not null,
+rok_rejestracji number(4) not null
+);
+
+descr samochody;
+
+Alter table samochody3 add
+(
+constraint un_rejestracja unique (rok_rejestracji)
+);
+
+Alter table samochody1 add
+(
+constraint fk_marka foreign key (marka) references marka(id)
+);
+
+
+alter table samochody3 modify
+(
+ model Varchar2(50)
+);
+
+alter table samochody3 modify
+(
+model constraint nn_model not null
+);
+
+
+alter table samochody3 drop constraint nnkraj;
+
+
